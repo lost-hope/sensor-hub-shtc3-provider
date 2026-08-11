@@ -1,0 +1,10 @@
+{
+  "name": "sensor-hub-shtc3-provider",
+  "build": {
+    "libArchive": false
+  },
+  "dependencies": {
+    "adafruit/Adafruit SHTC3 Library": "^1.0",
+    "SPI": "*"
+  }
+}
