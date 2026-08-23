@@ -24,6 +24,10 @@
  * Adafruit_BusIO / Adafruit Unified Sensor dependencies automatically) - see
  * readme.md for wiring it into a WLED build.
  */
+
+REGISTER_SENSOR_SLOT(_slotTemp, "_temperature", SensorTypes::Temperature, 1, 100);
+REGISTER_SENSOR_SLOT(_slotHumidity, "_humidity", SensorTypes::Humidity, 1, 100);
+
 class SHTC3SensorUsermod : public Usermod {
   private:
     Adafruit_SHTC3 shtc3;
@@ -54,9 +58,8 @@ class SHTC3SensorUsermod : public Usermod {
 
     void registerSensors() {
       if (!hub || tempHandle != SENSOR_HANDLE_INVALID) return; // already registered
-      // registerSensor() copies the name internally, so a temporary is fine here.
-      tempHandle     = hub->registerSensor((namePrefix + "_temperature").c_str(), SensorType::Temperature, nullptr, nullptr, precision, priority);
-      humidityHandle = hub->registerSensor((namePrefix + "_humidity").c_str(),    SensorType::Humidity,    nullptr, nullptr, precision, priority);
+      tempHandle     = hub->attachSensor(&_slotTemp, namePrefix.c_str(), precision, priority);
+      humidityHandle = hub->attachSensor(&_slotHumidity, namePrefix.c_str(), precision, priority);
     }
 
   public:
